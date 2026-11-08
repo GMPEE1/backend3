@@ -52,6 +52,7 @@ const authRoutes = require("./routes/auth.routes");
 const uploadRoutes = require("./routes/upload.routes");
 
 const allusersRoutes = require("./routes/allusers.routes");
+const topicRoutes = require("./routes/topic.routes");
 
 // http://localhost:7000/api/auth/login
 // app.use('/api/auth', require('./routes/auth.routes'));
@@ -63,6 +64,7 @@ app.use("/api/upload", uploadRoutes);
 // จะได้ /api/periods/active, /api/indicators, ...
 
 app.use("/api/allusers", allusersRoutes);
+app.use("/api/topic", topicRoutes);
 
 // << เส้นทางสำหรับ Period/Indicator/EvidenceType และ POST /attachments
 app.use("/api", attachmentsApi);           // จะได้ /api/periods/active, /api/indicators, ...
