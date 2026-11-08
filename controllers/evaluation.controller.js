@@ -71,8 +71,12 @@ exports.create = async(req,res,next) => {
 exports.createEvar = async(req,res,next) => {
     try {
         const e_id = req.params.u_id;
-        const { t_id, ind_id, u_id, choose } = req.body;
-        await db("evaluation_results").insert({ t_id, ind_id, u_id, choose, e_id })
+        const evar = req.body;
+        const evardata = evar.map((item)=>({
+            ...item,
+            e_id: e_id
+        }))
+        await db("evaluation_results").insert(evardata)
         res.status(201).json({
             success: true,
             message: "เพิ่มข้อมูลเรียบร้อย"
