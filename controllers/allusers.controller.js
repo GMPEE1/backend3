@@ -38,7 +38,7 @@ exports.update = async(req,res,next) => {
         await db("users").update(user).where("users.u_role", u_role).where("users.u_id", u_id)
         res.status(201).json({
             success: true,
-            message: "อัพเดทข้อมูลเรีบร้อย"
+            message: "อัพเดทข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)
@@ -52,7 +52,7 @@ exports.delete = async(req,res,next) => {
         await db("users").where("users.u_role", u_role).where("users.u_id", u_id).delete()
         res.status(201).json({
             success: true,
-            message: "ลบข้อมูลเรีบร้อย"
+            message: "ลบข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)
@@ -65,7 +65,7 @@ exports.create = async(req,res,next) => {
         await db("users").insert({ u_name, u_email, u_role , u_password: "12345678", u_pw_status: 0 })
         res.status(201).json({
             success: true,
-            message: "เพิ่มข้อมูลเรีบร้อย"
+            message: "เพิ่มข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)
@@ -78,7 +78,7 @@ exports.resetPw = async(req,res,next) => {
         await db("users").update({ u_password: "12345678", u_pw_status: 0 }).where("users.u_id", u_id)
         res.status(201).json({
             success: true,
-            message: "รีเซ็ตรหัสผ่านเรีบร้อย"
+            message: "รีเซ็ตรหัสผ่านเรียบร้อย"
         })
     } catch (e) {
         next(e)
@@ -92,7 +92,7 @@ exports.changePw = async(req,res,next) => {
         await db("users").update({ u_password, u_pw_status: 1 }).where("users.u_id", u_id)
         res.status(201).json({
             success: true,
-            message: "เปลี่ยนรหัสผ่านเรีบร้อย"
+            message: "เปลี่ยนรหัสผ่านเรียบร้อย"
         })
     } catch (e) {
         next(e)

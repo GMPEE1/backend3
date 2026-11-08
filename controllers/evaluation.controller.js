@@ -61,7 +61,68 @@ exports.create = async(req,res,next) => {
         })
         res.status(201).json({
             success: true,
-            message: "เพิ่มข้อมูลเรีบร้อย"
+            message: "เพิ่มข้อมูลเรียบร้อย"
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+exports.createEvar = async(req,res,next) => {
+    try {
+        const e_id = req.params.u_id;
+        const { t_id, ind_id, u_id, choose } = req.body;
+        await db("evaluation_results").insert({ t_id, ind_id, u_id, choose, e_id })
+        res.status(201).json({
+            success: true,
+            message: "เพิ่มข้อมูลเรียบร้อย"
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+exports.listCm = async(req,res,next) => {
+    try {
+        const t_id = req.params.t_id
+        const u_id = req.params.u_id
+        const list = await db("comment")
+            .leftJoin(
+                "evaluation",
+                "comment.eva_id",
+                "evaluation.eva_id"
+            )
+            .leftJoin(
+                "users",
+                "comment.u_cm_id",
+                "users.u_id"
+            )
+            .leftJoin(
+                "comment",
+                "comment.u_cm_id",
+            )
+            .select("*")
+            .where("comment.eva_id",eva_id)
+            .where("comment.u_id",u_id)
+        res.status(201).json({
+            success: true,
+            message: "ดึงข้อมูลเรียบร้อย",
+            item: list,
+            total: list.length
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+exports.createCm = async(req,res,next) => {
+    try {
+        const u_cm_id = req.params.u_id
+        const { u_id, t_id ,comment} = req.body;
+        await db("comment").insert({ u_id, t_id ,comment, u_cm_id})
+        res.status(201).json({
+            success: true,
+            message: "เพิ่มข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)

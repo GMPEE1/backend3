@@ -43,7 +43,7 @@ exports.update = async(req,res,next) => {
         await db("topic").update(t_name).where("topic.t_id", t_id)
         res.status(201).json({
             success: true,
-            message: "อัพเดทข้อมูลเรีบร้อย"
+            message: "อัพเดทข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)
@@ -59,7 +59,7 @@ exports.delete = async(req,res,next) => {
         await db("topic").where("topic.t_id", t_id).delete()
         res.status(201).json({
             success: true,
-            message: "ลบข้อมูลเรีบร้อย"
+            message: "ลบข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)
@@ -72,7 +72,7 @@ exports.create = async(req,res,next) => {
         await db("topic").insert(t_name)
         res.status(201).json({
             success: true,
-            message: "เพิ่มข้อมูลเรีบร้อย"
+            message: "เพิ่มข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)
@@ -135,7 +135,7 @@ exports.updateInd = async(req,res,next) => {
         })
         res.status(201).json({
             success: true,
-            message: "อัพเดทข้อมูลเรีบร้อย"
+            message: "อัพเดทข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)
@@ -153,7 +153,7 @@ exports.deleteInd = async(req,res,next) => {
         })
         res.status(201).json({
             success: true,
-            message: "ลบข้อมูลเรีบร้อย"
+            message: "ลบข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)
@@ -184,7 +184,7 @@ exports.createInd = async(req,res,next) => {
 
         res.status(201).json({
             success: true,
-            message: "เพิ่มข้อมูลเรีบร้อย"
+            message: "เพิ่มข้อมูลเรียบร้อย"
         })
     } catch (e) {
         next(e)
