@@ -3,11 +3,11 @@
 
 const db = require("../db/knex");  // ใช้ knex ต่อ DB โดยตรง
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 
 // ช่วย: เลือกฟิลด์ที่จะส่งกลับ (อย่าส่ง password_hash)
 const pickPublic = (row) =>
-  row && ({ id: row.id, name: row.name_th, email: row.email, role: row.role });
+  row && ({ u_id: row.u_id, u_name: row.u_name, u_email: row.u_email, u_role: row.u_role, u_pw_status: row.u_pw_status });
 
 /**
  * POST /api/auth/login
@@ -18,8 +18,8 @@ const pickPublic = (row) =>
  */
 exports.login = async (req, res, next) => {
   try {
-    const { email, password } = req.body || {};
-    if (!email || !password) {
+    const { u_email, u_password } = req.body || {};
+    if (!u_email || !u_password) {
       return res
         .status(400)
         .json({ success: false, message: "email and password required" });
@@ -27,8 +27,8 @@ exports.login = async (req, res, next) => {
 
     // 1) ค้นผู้ใช้จากอีเมล (ต้องดึง password_hash มาด้วย เพื่อตรวจรหัสผ่าน)
     const user = await db("users")
-      .select("id", "name_th", "email", "role", "password_hash")
-      .where({ email })
+      .select("u_id", "u_name", "u_email", "u_role", "u_password", "u_pw_status")
+      .where({ u_email })
       .first();
 
     if (!user) {
@@ -38,7 +38,7 @@ exports.login = async (req, res, next) => {
     }
 
     // 2) เปรียบเทียบรหัสผ่าน
-    const ok = await bcrypt.compare(password, user.password_hash);
+    const ok = (user.u_password == u_password)
     if (!ok) {
       return res
         .status(401)
@@ -47,7 +47,7 @@ exports.login = async (req, res, next) => {
 
     // 3) สร้าง JWT
     const token = jwt.sign(
-      { id: user.id, role: user.role, name: user.name_th }, // payload
+      { u_id: user.u_id, u_role: user.u_role, u_name: user.u_name }, // payload
       process.env.JWT_SECRET,                                // ความลับจาก .env
       { expiresIn: process.env.JWT_EXPIRES || "1h" }         // อายุโทเค็น
     );
